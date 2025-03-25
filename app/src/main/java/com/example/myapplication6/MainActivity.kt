@@ -1,47 +1,31 @@
 package com.example.myapplication6
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.myapplication6.ui.theme.MyApplication6Theme
+import android.widget.ListView
+import androidx.appcompat.app.AppCompatActivity
 
-class MainActivity : ComponentActivity() {
+
+class MainActivity : AppCompatActivity() {
+
+    private lateinit var listView: ListView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            MyApplication6Theme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
-        }
-    }
-}
+        setContentView(R.layout.activity_main)
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+        listView = findViewById(R.id.listViewCountries)
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MyApplication6Theme {
-        Greeting("Android")
+        // Подготавливаем список данных
+        val countries = listOf(
+            Country("Vietnam", 98000000, R.drawable.flag_vietnam),
+            Country("United States", 320000000, R.drawable.flag_usa),
+            Country("Russia", 142000000, R.drawable.flag_russia)
+        )
+
+        // Создаём адаптер
+        val adapter = CountryAdapter(this, countries)
+
+        // Устанавливаем адаптер для ListView
+        listView.adapter = adapter
     }
 }
